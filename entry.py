@@ -1,9 +1,9 @@
 
-import all
+import ICityTool
 import os
 
 if __name__ == "__main__":
-    all.ICityRunner(DefenseSystem_Name="Hachiman_A",
+    ICityTool.ICityRunner(DefenseSystem_Name="Hachiman_A",
                     DefenseSystem_FilePath="./",
                     PTYFile=os.path.join("./", "DemoInput/Database/CDS.pty"),
                     PathToDatabase=os.path.join("./", "DemoInput/Database/ProteinDB"),
