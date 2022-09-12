@@ -69,6 +69,10 @@ def CheckDependencies():
         print("muscle not available")
         DependenciesMissing = True
 
+    if shutil.which("parallel") is None:
+        print("parallel not available")
+        DependenciesMissing = True
+
     if DependenciesMissing:
         print("required software missing")
         sys.exit(1)
@@ -1160,7 +1164,6 @@ def ICityRunner(DefenseSystem_Name,
                             MIN_COVERAGE_FILTER=SortingCoverageThresold)
 
     # Step 13
-    print("Step 13: Calculating ICITY metric")
     CalculatingICITYMetric(SortedBLASTHitsFolder=SortedBLASTHitsFolder,
                             PathToDatabase=PathToDatabase,
                             VicinityClustersFileName=VicinityClustersFileName,
