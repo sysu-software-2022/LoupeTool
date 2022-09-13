@@ -16,7 +16,7 @@ pip install ICityTool
 
 ## 🔌Dependences Installation
 
-The following **5** tools and **2** python packages are significantly critical for your successful execution of ICityTool.
+The following **4** tools and **5** python packages are significantly critical for your successful execution of ICityTool.
 
 We strongly recommend you run **ICityTool** in **Linux** or **macOS**.
 
@@ -131,7 +131,7 @@ brew install parallel
 
 #### 5.Python Packages:
 
-##### bio, pandas, numpy, sklearn
+##### bio, pandas, numpy, sklearn, imblearn
 
 You can install these python packages by running `pip install -r requirements.txt`
 
