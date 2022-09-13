@@ -4,8 +4,6 @@
 
 **An integrate python package version of ICityRunner**
 
-[TOC]
-
 
 
 ## 🌟Download
@@ -101,9 +99,13 @@ For more details see [Muscle5](https://drive5.com/muscle5/)
 
 
 
+
+
 #### 3.MMseqs2
 
 Please refer to official installation user guide [MMseqs2 User Guide](https://github.com/soedinglab/mmseqs2/wiki#installation)
+
+
 
 
 
@@ -125,13 +127,15 @@ brew install parallel
 
 
 
+
+
 #### 5.Python Packages:
 
 ##### bio, pandas, numpy, sklearn
 
-
-
 You can install these python packages by running `pip install -r requirements.txt`
+
+
 
 
 
@@ -153,6 +157,8 @@ ICityTool.ICityRunner(DefenseSystem_Name="DEMO_A",
 
 
 ```
+
+
 
 ##### I. Parameters guide:
 
