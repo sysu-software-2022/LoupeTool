@@ -130,7 +130,7 @@ def HashSeedExtract(cds_path="Database/archaea_cds.pty", seed_path="Archaea_RM.x
 
         cds_find = cds_find.to_numpy()
 
-        seed_file = pd.read_excel(seed_path)
+        seed_file = pd.read_csv(seed_path)
         seed_assembly_accession = seed_file.assembly_accession.str.replace("GCA", "GCF")
         seed_end = seed_file.end
         seed_find = pd.concat([seed_assembly_accession, seed_end], axis=1)
@@ -401,7 +401,7 @@ def MakeProfiles(ClustersFileName="VicinityPermissiveClustsLinear" + "RM_A" + ".
             pool.join()
 
 
-    if __name__ == "ICityTool":
+    if __name__ == "Loupe":
         t1 = time.time()
         cnt = 0
 
@@ -583,7 +583,8 @@ def SortBLASTHitsInMemory(ClustersHitsFolder=os.path.join("./" + "RM_A"+"_OUTPUT
             if LineValues[LOCI_PROTEIN_ID] == "===":
                 if len(Accessions) > 0:
                     if len(IslandSeeds) == 0:
-                        raise "NoSeedFound"
+                        # raise "NoSeedFound"
+                        pass
                     else:
                         for Accession in Accessions:
                             DistToSeed[Accession] = min([abs(x - Accessions[Accession]) for x in IslandSeeds])
@@ -1103,7 +1104,7 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
 
 
 
-def ICityRunner(DefenseSystem_Name,
+def LoupeRunner(DefenseSystem_Name,
                 DefenseSystem_FilePath,
                 PTYFile,
                 PathToDatabase,
