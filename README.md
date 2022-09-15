@@ -1,24 +1,24 @@
-# ICityTool	
+# LoupeTool	
 
-[![PyPI version](https://img.shields.io/badge/pypi-v0.1-yellowgreen?logo=pypi&logoColor=yellow)](https://badge.fury.io/py/ICityTool) [![Python 3.6](https://img.shields.io/badge/python-3.6%7C3.7%7C3.8%7C3.9-yellowgreen?style=flat&logo=python&logoColor=yellow&color=blue)](https://badge.fury.io/py/ICityTool)[![Python 3.6](https://img.shields.io/badge/GitHub-repository-yellowgreen?style=flat&logo=github&logoColor=white&color=blue)](https://github.com/sysu-software-2022/ICityTool)
+[![PyPI version](https://img.shields.io/badge/pypi-v0.1-yellowgreen?logo=pypi&logoColor=yellow)](https://badge.fury.io/py/LoupeTool) [![Python 3.6](https://img.shields.io/badge/python-3.6%7C3.7%7C3.8%7C3.9-yellowgreen?style=flat&logo=python&logoColor=yellow&color=blue)](https://badge.fury.io/py/LoupeTool)[![Python 3.6](https://img.shields.io/badge/GitHub-repository-yellowgreen?style=flat&logo=github&logoColor=white&color=blue)](https://github.com/sysu-software-2022/LoupeTool)
 
-**An integrate python package version of ICityRunner**
+**An integrate python package version of LoupeRunner**
 
 
 
 ## 🌟Download
 
 ```python
-pip install ICityTool
+pip install LoupeTool
 ```
 
 
 
 ## 🔌Dependences Installation
 
-The following **4** tools and **5** python packages are significantly critical for your successful execution of ICityTool.
+The following **4** tools and **5** python packages are significantly critical for your successful execution of LoupeTool.
 
-We strongly recommend you run **ICityTool** in **Linux** or **macOS**.
+We strongly recommend you run **LoupeTool** in **Linux** or **macOS**.
 
 
 
@@ -142,9 +142,9 @@ You can install these python packages by running `pip install -r requirements.tx
 ## 👾Quick Example
 
 ```python
-import ICityTool
+from LoupeTool import Loupe
 import os
-ICityTool.ICityRunner(DefenseSystem_Name="DEMO_A",
+Loupe.LoupeRunner(DefenseSystem_Name="DEMO_A",
                     DefenseSystem_FilePath="./",
                     PTYFile=os.path.join("./", "DemoInput/Database/CDS.pty"),
                     PathToDatabase=os.path.join("./", "DemoInput/Database/ProteinDB"),
@@ -154,7 +154,6 @@ ICityTool.ICityRunner(DefenseSystem_Name="DEMO_A",
                     SortingOverlapThreshold=0.4,
                     SortingCoverageThresold=0.25,
                     ThreadNum="48")
-
 
 ```
 
@@ -173,7 +172,7 @@ hint: the most convinient way of managing these relevant paths is create a new d
 
 ##### II. For users:
 
-For processing large **seeds** by executing **ICityTool,** you may have to wait for longer time, which is contingent on your CPU core number (some bottleneck steps in **ICityTool** are optimized by **parallelization** and the performance is positively correlated with the CPU core number)
+For processing large **seeds** by executing **LoupeTool,** you may have to wait for longer time, which is contingent on your CPU core number (some bottleneck steps in **LoupeTool** are optimized by **parallelization** and the performance is positively correlated with the CPU core number)
 
 
 
