@@ -1,2 +1,2 @@
-include *.sh
+include LoupeTool\*.sh
 include *.py
