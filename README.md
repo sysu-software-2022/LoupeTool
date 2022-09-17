@@ -146,7 +146,7 @@ You can install these python packages by running `pip install -r requirements.tx
 from LoupeTool import Loupe
 import os
 if __name__ == "__main__":
-  Loupe.LoupeRunner(DefenseSystem_Name="Cas",
+    Loupe.LoupeRunner(DefenseSystem_Name="Cas",
                       DefenseSystem_FilePath="./",
                       PTYFile=os.path.join("./", "Cas_INPUT/Database/CDS.pty"),
                       PathToDatabase=os.path.join("./", "Cas_INPUT/Database/ProteinDB"),
