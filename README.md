@@ -145,16 +145,17 @@ You can install these python packages by running `pip install -r requirements.tx
 ```python
 from LoupeTool import Loupe
 import os
-Loupe.LoupeRunner(DefenseSystem_Name="Cas",
-                    DefenseSystem_FilePath="./",
-                    PTYFile=os.path.join("./", "Cas_INPUT/Database/CDS.pty"),
-                    PathToDatabase=os.path.join("./", "Cas_INPUT/Database/ProteinDB"),
-                    SeedPath=os.path.join("./", "Cas_INPUT/Archaea_Cas.csv"),
-                    NeighborhoodVicinitySize=10000,
-                    PermissiveClusteringThreshold=0.3,
-                    SortingOverlapThreshold=0.4,
-                    SortingCoverageThresold=0.25,
-                    ThreadNum="48")
+if __name__ == "__main__":
+  Loupe.LoupeRunner(DefenseSystem_Name="Cas",
+                      DefenseSystem_FilePath="./",
+                      PTYFile=os.path.join("./", "Cas_INPUT/Database/CDS.pty"),
+                      PathToDatabase=os.path.join("./", "Cas_INPUT/Database/ProteinDB"),
+                      SeedPath=os.path.join("./", "Cas_INPUT/Archaea_Cas.csv"),
+                      NeighborhoodVicinitySize=10000,
+                      PermissiveClusteringThreshold=0.3,
+                      SortingOverlapThreshold=0.4,
+                      SortingCoverageThresold=0.25,
+                      ThreadNum="48")
 
 ```
 
