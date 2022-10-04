@@ -817,7 +817,7 @@ We classified cluster according to gene function: defense genes consistent with 
 In order to improve the discrimination of different types of clusters, we added two new parameters: the conservation of genes within clusters among species and the conservation among genera. The calculation is as follows:
 Suppose a CLUSTER contains the number of g genes, these genes appear in the number of n species/genus, each species has some of the clusters' genes and are not repetitive, denotes them as a1, a2, a3,...,an, where
 
-$ a_1 + a_2 + a_3 + ... + a_n = g $
+$a_1 + a_2 + a_3 + ... + a_n = g$
 
 
 $$ C = \frac{\frac{1}{a_1} +\frac{1}{a_2} + \frac{1}{a_3} + ... + \frac{1}{a_n} }{n}\ $$
