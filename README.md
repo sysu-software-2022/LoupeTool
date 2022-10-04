@@ -20,7 +20,7 @@ iGEM SYSU-Software 2022
 
 **An integrate python package version of LoupeRunner**
 
-We strongly recommend you execute **LoupeRunner** on **high performance computing platform(HPC).**
+We strongly recommend you execute **LoupeTool** on **high performance computing platform(HPC).**
 
 
 
