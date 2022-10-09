@@ -26,6 +26,7 @@ from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,BaggingCl
 from multiprocessing import Pool,set_start_method,get_start_method
 
 
+
 def subprocess_call(Stage, CallText):
 
     print(Stage)
@@ -338,11 +339,13 @@ def FetchingProteinSequences(PathToDatabase="Database/ArchaeaProt",
 # step 9
 def ClusteringProteinSeqiences(VicinityFASTAFileName=os.path.join("./" + "RM_A"+"_OUTPUT", "Vicinity_"+"RM_A"+".faa"),
                             PermissiveClusteringThreshold=0.3,
-                            VicinityClustersFileName="VicinityPermissiveClustsLinear" + "RM_A" + ".tsv"):
+                            VicinityClustersFileName="VicinityPermissiveClustsLinear" + "RM_A" + ".tsv",
+                            BASE_DIR=""):
 
-    subprocess_call("Step 9: Clustering protein seqiences", "bash RunClust.sh " + VicinityFASTAFileName + " " +
+    subprocess_call("Step 9: Clustering protein seqiences", "bash " +BASE_DIR+ "/RunClust.sh " + VicinityFASTAFileName + " " +
                 str(PermissiveClusteringThreshold) + " " +
-                VicinityClustersFileName)
+                VicinityClustersFileName + " "+
+                BASE_DIR)
 
 
 # step 10
@@ -401,16 +404,15 @@ def MakeProfiles(ClustersFileName="VicinityPermissiveClustsLinear" + "RM_A" + ".
             pool.join()
 
 
-    if __name__ == "Loupe":
-        t1 = time.time()
-        cnt = 0
+    t1 = time.time()
+    cnt = 0
 
-        multi_process()
+    multi_process()
 
-        t2 = time.time()
+    t2 = time.time()
 
-        print("Work Done !")
-        print("Used time: ", t2 - t1, "s")
+    print("Work Done !")
+    print("Used time: ", t2 - t1, "s")
 
 
 # step 11
@@ -733,23 +735,28 @@ def CalculatingICITYMetric(SortedBLASTHitsFolder=os.path.join("./" + "RM_A"+"_OU
                         PathToDatabase="Database/ArchaeaProt",
                         VicinityClustersFileName="VicinityPermissiveClustsLinear" + "RM_A" + ".tsv",
                         ICITYFileName=os.path.join("./" + "RM_A"+"_OUTPUT", "Relevance_"+"RM_A"+".tsv"),
-                        ThreadNum="48"):
-    subprocess_call("Step 13: Calculating ICITY metric", "bash Cal.sh " +
+                        ThreadNum="48",
+                        BASE_DIR=""):
+    subprocess_call("Step 13: Calculating ICITY metric", "bash "+BASE_DIR+ "/Cal.sh " +
                     SortedBLASTHitsFolder + " " +
                     PathToDatabase + " " +
                     VicinityClustersFileName + " " +
                     ICITYFileName + " " +
-                    ThreadNum
+                    ThreadNum + " " +
+                    BASE_DIR
                     )
 
 
 # step 14
-def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
+def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./", PathToDatabase="Database/ArchaeaProt"):
+    # Relevance.tsv
     CLUSTER_NAME = 0
     NUMBER_IN_VICINTY = 1
     NUMBER_IN_ENTIRE = 2
     DISTANCE_TO_SEED = 3
     DS3P = 4
+
+
 
     # 阈值暂定，需要使用统计得到一个有说服力的数值
     DS3P_threshold = 0.0
@@ -763,16 +770,15 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
 
     class NotDefenseSystem(Exception): pass
 
-    # 修改文件位置
 
     SeedAccession_Filename = DefenseSystem_FilePath+ DefenseSystem_Name + '_OUTPUT/Seeds_' + DefenseSystem_Name + '.tsv'
     CLUSTERS_Filepath = DefenseSystem_FilePath + DefenseSystem_Name + '_OUTPUT/CLUSTERS_' + DefenseSystem_Name 
     CLUSTERHitsSorted_path = DefenseSystem_FilePath + DefenseSystem_Name + '_OUTPUT/CLUSTERS_' + DefenseSystem_Name + '/Sorted/'
     Vicinity_Filename=(os.path.split(DefenseSystem_FilePath+ DefenseSystem_Name + '_OUTPUT/Vicinity_'+ DefenseSystem_Name + '.faa')[1])
     Relevance_Filenpath = DefenseSystem_FilePath+DefenseSystem_Name + '_OUTPUT/Relevance_' + DefenseSystem_Name + '.tsv'
-    #Relevance_Filename = 'Relevance_ABI_A.tsv'
-    Relevance_CategoryName = 'Relevance_Sorted_'+ DefenseSystem_Name + '_Category.csv'
+    Relevance_CategoryName = DefenseSystem_FilePath+DefenseSystem_Name + '_OUTPUT/Relevance_Sorted_'+ DefenseSystem_Name + '_Category.csv'
     CLUSTERS_Filenpath = DefenseSystem_FilePath + DefenseSystem_Name + '_OUTPUT/CLUSTERS_' + DefenseSystem_Name 
+
 
 
     def makecategoryfile(DefenseSystem_Name, DefenseSystem_Function):
@@ -804,7 +810,6 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
         os.mkdir(Dir)
 
 
-
     if 'ABI' in DefenseSystem_Name:
             makecategoryfile(DefenseSystem_Name, DefenseSystem_Function_1)
     elif 'RM' in DefenseSystem_Name:
@@ -819,7 +824,6 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
             raise NotDefenseSystem("No related defense system is included")
 
 
-
     # 配合使用ACCESSION.sh 得到分类文件,不同抗性系统需要修改文件路径
     Accession_All_FileName = 'ACCESSION_A/ACCESSION_' + DefenseSystem_Name + '.txt'
     Accession_Category_Target_FileName = 'ACCESSION_A/ACCESSION_ONLY_'+ DefenseSystem_Name + '.txt'
@@ -828,11 +832,14 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
     ACCESSION_Other_DefenseGene_FileName = 'ACCESSION_A/ACCESSION_Other_DefenseGene_'+ DefenseSystem_Name + '.txt'
 
 
+
+
     with open(Relevance_Filenpath,'r') as F:
         Relevance = dict()
         for Line in F:
             LineValue = Line[:-1].split('\t')
             Relevance[LineValue[CLUSTER_NAME]] = [LineValue[CLUSTER_NAME], LineValue[NUMBER_IN_VICINTY], LineValue[NUMBER_IN_ENTIRE], LineValue[DISTANCE_TO_SEED], LineValue[DS3P]]
+
 
 
     Relevance_Sorted_Target = dict()
@@ -853,6 +860,9 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
                 ProteinAccession.append(LineValue[PROTEIN_ACCESSION])
         
         Relevance_Sorted_Target[n] = [Relevance_Sorted_Target[n], ProteinAccession]
+
+
+
 
     # 构建字典，引入分类符
     # 与输入数据一致的防御基因--1
@@ -885,6 +895,7 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
             Accession_Category_Hypothetical[LineValue[0]] = [LineValue[1], LineValue[2]]
 
 
+
     Relevance_Sorted_Target_Category = dict()
     for id in Relevance_Sorted_Target:
         # 每个Cluster 里多个 Accession 的功能可能不同，若不同，选取顺序如下: 1>2>3>4
@@ -914,6 +925,9 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
             Relevance_Sorted_Target_Category[id] = [Relevance_Sorted_Target[id][0], Accession_Category_HouseKeeping[Cluster_Category_Name][1]]
         elif Cluster_Category_Value == 4:
             Relevance_Sorted_Target_Category[id] = [Relevance_Sorted_Target[id][0], Accession_Category_Hypothetical[Cluster_Category_Name][1]]
+
+
+
 
 
     # 计算物种保守性（属-种分开算）
@@ -975,6 +989,7 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
             Relevance_Sorted_Target_Taxonomy[id] = [CalConservation(flipped_genus),CalConservation(flipped_species)]
 
 
+
     with open(Relevance_CategoryName,'w') as f:
         for i in Relevance_Sorted_Target_Category:
             for element in Relevance_Sorted_Target_Category[i][0]:
@@ -988,7 +1003,6 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
             f.write("\n")
 
 
-    #import seaborn as sns
 
     def visualize(pred_y, test_y):
         '''
@@ -1075,16 +1089,16 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
         reduce_known_pos = reduce_known_pos.reset_index(drop=True)
         reduce_known_pos.to_csv(outname,index= False)
         
-
         
+
     filename = Relevance_CategoryName
-    outname = f"output_{filename}"
+    outname = DefenseSystem_FilePath+DefenseSystem_Name + '_OUTPUT/output_Relevance_Sorted_'+ DefenseSystem_Name + '_Category.csv'
     binary_cls_analysis(filename, outname)
 
 
 
     NewGene_ClusterIDs = pd.read_csv(outname)
-    NewGeneFile = 'NewGene_' + DefenseSystem_Name
+    NewGeneFile = DefenseSystem_FilePath + DefenseSystem_Name + '_OUTPUT/NewGene_' + DefenseSystem_Name
 
 
     if not os.path.exists(NewGeneFile):
@@ -1098,8 +1112,9 @@ def SortRelevance(DefenseSystem_Name="RM_A", DefenseSystem_FilePath="./"):
                 f.write(Relevance_Sorted_Target['CLUSTER_' + n][1][i])
                 f.write('\n')
 
-        subprocess.call('blastdbcmd -db Database/ProteinDB -entry_batch '+ NewGeneList +
-        ' -long_seqids > '+ NewGeneFile + '/' + DefenseSystem_Name + '_' +'CLUSTER_'+ n +'.faa',shell= True)
+        subprocess.call('blastdbcmd -db ' + PathToDatabase + ' -entry_batch ' + NewGeneList +
+                        ' -long_seqids > ' + NewGeneFile + '/' + DefenseSystem_Name + '_' + 'CLUSTER_' + n + '.faa',
+                        shell=True)
 
 
 
@@ -1118,6 +1133,8 @@ def LoupeRunner(DefenseSystem_Name,
     Dir = DefenseSystem_Name + "_OUTPUT"
     if not os.path.exists(Dir):
         os.mkdir(Dir)
+
+    BASE_DIR=os.path.dirname(os.path.abspath(__file__))
 
     SeedsExtractedFileName=os.path.join("./" + DefenseSystem_Name+"_OUTPUT", "Seeds_" + DefenseSystem_Name + ".tsv")
     VicinityFileName=os.path.join("./" + DefenseSystem_Name+"_OUTPUT", "Vicinity_"+DefenseSystem_Name+".tsv")
@@ -1143,7 +1160,7 @@ def LoupeRunner(DefenseSystem_Name,
     FetchingProteinSequences(PathToDatabase,VicinityIDsFileName,VicinityFASTAFileName)
 
     # Step 9
-    ClusteringProteinSeqiences(VicinityFASTAFileName, PermissiveClusteringThreshold, VicinityClustersFileName)
+    ClusteringProteinSeqiences(VicinityFASTAFileName, PermissiveClusteringThreshold, VicinityClustersFileName, BASE_DIR)
 
     # Step 10
     print("Step 10: Making profiles")
@@ -1169,7 +1186,8 @@ def LoupeRunner(DefenseSystem_Name,
                             PathToDatabase=PathToDatabase,
                             VicinityClustersFileName=VicinityClustersFileName,
                             ICITYFileName=ICITYFileName,
-                            ThreadNum=ThreadNum)
+                            ThreadNum=ThreadNum,
+                            BASE_DIR=BASE_DIR)
 
     print("Step 14: Sorting Relevance")
-    SortRelevance(DefenseSystem_Name, DefenseSystem_FilePath)
+    SortRelevance(DefenseSystem_Name, DefenseSystem_FilePath, PathToDatabase)

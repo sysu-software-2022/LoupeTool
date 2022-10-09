@@ -17,6 +17,8 @@ HIT_DistToBait = 10
 
 StrictThreshold = 0.9
 
+BASE_DIR=os.path.dirname(os.path.abspath(__file__))
+
 
 def GetEffectiveNoFromAlignment(TargetHits, PrefixFileName, FilterField = -1):
     ClusterCount = -1
@@ -42,7 +44,7 @@ def GetEffectiveNoFromAlignment(TargetHits, PrefixFileName, FilterField = -1):
     if ContentExists:
         devnull = open(os.devnull, 'wb')
         subprocess.call(
-            "bash RunClust.sh " + FAFileName + " " + str(StrictThreshold) + " " + ClustFileName, shell=True, stdout=devnull, stderr=devnull)
+            "bash "+BASE_DIR+"/RunClust.sh " + FAFileName + " " + str(StrictThreshold) + " " + ClustFileName + " " + BASE_DIR, shell=True, stdout=devnull, stderr=devnull)
 
         ClusterCount = 0
         for Line in open(ClustFileName, "r"):
@@ -89,7 +91,7 @@ def FilterBlastHits(ClusterId, ClusterHits, Database, ClustersFileName):
 
     devnull = open(os.devnull, 'wb')
     subprocess.call(
-        "bash RunClust.sh " + ClusterFASTA + " 0.3 " + ClusterSubclustersFileName, shell = True, stdout = devnull, stderr = devnull)
+        "bash "+BASE_DIR+"/RunClust.sh " + ClusterFASTA + " 0.3 " + ClusterSubclustersFileName + " " + BASE_DIR, shell = True, stdout = devnull, stderr = devnull)
 
     ClusterLineNo = int(ClusterId.split("_")[1])
     OriginalClusterIDs = set(GetSelectedClusterIDs(ClustersFileName, ClusterLineNo))

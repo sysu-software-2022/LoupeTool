@@ -24,6 +24,8 @@ fi
 
 ResClustFileName="$3"
 
+BASE_DIR="$4"
+
 PrefixFileName=$ResClustFileName
 
 TmpFileFastaWithShortIDs="${PrefixFileName}_TmpClustShortID.faa"
@@ -33,11 +35,11 @@ TmpFileClusters="${PrefixFileName}_TmpClust"
 TmpFileMMseqsClusters="${PrefixFileName}_TmpClustMMSEQS.tsv"
 
 mkdir $TmpClustFolder
-python RemoveFASTAIDRedundency.py -f $FileName > $TmpFileFastaWithShortIDs
+python $BASE_DIR/RemoveFASTAIDRedundency.py -f $FileName > $TmpFileFastaWithShortIDs
 mmseqs createdb $TmpFileFastaWithShortIDs $TmpFileTmpClustDB
 mmseqs cluster $TmpFileTmpClustDB $TmpFileClusters $TmpClustFolder --cluster-mode 1 -c 0.1 --min-seq-id $Threshold -e 0.01 
 mmseqs createtsv $TmpFileTmpClustDB $TmpFileTmpClustDB $TmpFileClusters $TmpFileMMseqsClusters
-python ConvertOutput.py -f $TmpFileMMseqsClusters > $ResClustFileName
+python $BASE_DIR/ConvertOutput.py -f $TmpFileMMseqsClusters > $ResClustFileName
 
 rm -R ${PrefixFileName}_*
 

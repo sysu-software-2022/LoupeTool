@@ -1,9 +1,9 @@
 
-import ICityTool
+import LoupeTool
 import os
 
 if __name__ == "__main__":
-    ICityTool.ICityRunner(DefenseSystem_Name="Hachiman_A",
+    LoupeTool.LoupeRunner(DefenseSystem_Name="Hachiman_A",
                     DefenseSystem_FilePath="./",
                     PTYFile=os.path.join("./", "DemoInput/Database/CDS.pty"),
                     PathToDatabase=os.path.join("./", "DemoInput/Database/ProteinDB"),
