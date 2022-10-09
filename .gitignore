@@ -1,0 +1,15 @@
+
+build/lib/LoupeTool/__init__.py
+build/lib/LoupeTool/Cal.sh
+build/lib/LoupeTool/ConvertOutput.py
+build/lib/LoupeTool/entry.py
+build/lib/LoupeTool/GetIcityForBLASTHits.py
+build/lib/LoupeTool/Loupe.py
+build/lib/LoupeTool/RemoveFASTAIDRedundency.py
+build/lib/LoupeTool/RunClust.sh
+LoupeTool.egg-info/dependency_links.txt
+dist/LoupeTool-0.1.17-py3-none-any.whl
+dist/LoupeTool-0.1.17.tar.gz
+LoupeTool.egg-info/PKG-INFO
+LoupeTool.egg-info/SOURCES.txt
+LoupeTool.egg-info/top_level.txt
